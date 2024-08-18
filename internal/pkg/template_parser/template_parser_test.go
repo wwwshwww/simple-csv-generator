@@ -9,7 +9,7 @@ import (
 )
 
 func TestParse(t *testing.T) {
-	f, err := os.Open("example_template.yaml")
+	f, err := os.Open("example.yaml")
 	if err != nil {
 		t.Fatal(err)
 	}

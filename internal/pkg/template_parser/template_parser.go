@@ -53,15 +53,15 @@ type Config struct {
 }
 
 type Column struct {
-	Name         string      `yaml:"name"`
-	Type         ColumnType  `yaml:"type"`
-	Choices      ChoiceField `yaml:"choices,omitempty"`
-	CreationProb float64     `yaml:"creation_prob,omitempty"`
+	Name                string      `yaml:"name"`
+	Type                ColumnType  `yaml:"type"`
+	Choices             ChoiceField `yaml:"choices,omitempty"`
+	CreationProbability float64     `yaml:"creation_probability,omitempty"`
 }
 
 func (c *Column) UnmarshalYAML(value *yaml.Node) error {
 	// set default value
-	c.CreationProb = 99.0
+	c.CreationProbability = 99.0
 
 	type tmp Column // prevent infinite recursion
 	if err := value.Decode((*tmp)(c)); err != nil {
@@ -69,8 +69,8 @@ func (c *Column) UnmarshalYAML(value *yaml.Node) error {
 	}
 
 	// clip value
-	c.CreationProb = math.Max(0.0, c.CreationProb)
-	c.CreationProb = math.Min(1.0, c.CreationProb)
+	c.CreationProbability = math.Max(0.0, c.CreationProbability)
+	c.CreationProbability = math.Min(1.0, c.CreationProbability)
 
 	return nil
 }
@@ -102,7 +102,7 @@ func ParseFromYAML(source io.Reader) mo.Result[[]Column] {
 	}
 
 	names := lo.Map(config.Columns, func(c Column, _ int) string { return c.Name })
-	fmt.Printf("parse succeed: %v\n", names)
+	fmt.Printf("Parse succeeded: %v\n", names)
 	if dup := lo.FindDuplicates(names); len(dup) > 0 {
 		return mo.Errf[[]Column]("duplicated column names: %v", dup)
 	}
