@@ -16,8 +16,8 @@ import (
 	"github.com/samber/lo"
 	"github.com/samber/mo"
 	"github.com/spf13/cobra"
-	"github.com/wwwshwww/simple_csv_generator/internal/pkg/dummy_producer"
-	"github.com/wwwshwww/simple_csv_generator/internal/pkg/template_parser"
+	"github.com/wwwshwww/simple-csv-generator/internal/pkg/dummy_producer"
+	"github.com/wwwshwww/simple-csv-generator/internal/pkg/template_parser"
 )
 
 const (

@@ -1,4 +1,4 @@
-module github.com/wwwshwww/simple_csv_generator
+module github.com/wwwshwww/simple-csv-generator
 
 go 1.23.0
 

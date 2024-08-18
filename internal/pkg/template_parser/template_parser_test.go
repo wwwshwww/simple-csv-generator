@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/wwwshwww/simple_csv_generator/internal/pkg/template_parser"
+	"github.com/wwwshwww/simple-csv-generator/internal/pkg/template_parser"
 )
 
 func TestParse(t *testing.T) {
