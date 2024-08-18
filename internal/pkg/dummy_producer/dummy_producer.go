@@ -1,4 +1,4 @@
-package dummy_value_generator
+package dummy_producer
 
 import (
 	"math/rand"
@@ -16,8 +16,8 @@ const (
 
 var Selector = rand.New(rand.NewSource(seed))
 
-func GetDummiesString(count int, length int) []string {
-	return lo.Times(count, func(_ int) string {
+func GetDummiesString(species int, length int) []string {
+	return lo.Times(species, func(_ int) string {
 		s := lo.Times(length, func(_ int) rune {
 			return lo.LowerCaseLettersCharset[Selector.Intn(len(lo.LowerCaseLettersCharset))]
 		})
@@ -25,14 +25,14 @@ func GetDummiesString(count int, length int) []string {
 	})
 }
 
-func GetDummiesInt(count int, min, max int) []int {
-	return lo.Times(count, func(_ int) int {
+func GetDummiesInt(species int, min, max int) []int {
+	return lo.Times(species, func(_ int) int {
 		return Selector.Intn(max-min) + min
 	})
 }
 
-func GetDummiesFloat(count int, min, max float64) []float64 {
-	return lo.Times(count, func(_ int) float64 {
+func GetDummiesFloat(species int, min, max float64) []float64 {
+	return lo.Times(species, func(_ int) float64 {
 		min := decimal.NewFromFloat(min)
 		max := decimal.NewFromFloat(max)
 		result, _ := decimal.NewFromFloat(Selector.Float64()).
@@ -44,20 +44,20 @@ func GetDummiesFloat(count int, min, max float64) []float64 {
 	})
 }
 
-func GetDummiesBool(count int) []bool {
-	return lo.Times(count, func(_ int) bool {
+func GetDummiesBool(species int) []bool {
+	return lo.Times(species, func(_ int) bool {
 		return Selector.Intn(2) == 1
 	})
 }
 
-func GetDummiesDatetime(count int, min, max time.Time) []time.Time {
-	return lo.Times(count, func(_ int) time.Time {
-		return time.Unix(Selector.Int63n(max.Unix()-min.Unix())+min.Unix(), 0)
+func GetDummiesDatetime(species int, start, end time.Time) []time.Time {
+	return lo.Times(species, func(_ int) time.Time {
+		return time.Unix(Selector.Int63n(end.Unix()-start.Unix())+start.Unix(), 0)
 	})
 }
 
-func GetDummiesMultilineString(count int, length int, lines int) []string {
-	return lo.Times(count, func(_ int) string {
+func GetDummiesMultilineString(species int, length int, lines int) []string {
+	return lo.Times(species, func(_ int) string {
 		ls := lo.Times(lines, func(_ int) string {
 			s := lo.Times(length, func(_ int) rune {
 				return lo.LettersCharset[Selector.Intn(len(lo.LettersCharset))]
@@ -68,8 +68,8 @@ func GetDummiesMultilineString(count int, length int, lines int) []string {
 	})
 }
 
-func GetDummiesURL(count int, length int) []string {
-	return lo.Times(count, func(_ int) string {
+func GetDummiesURL(species int, length int) []string {
+	return lo.Times(species, func(_ int) string {
 		s := lo.Times(length, func(_ int) rune {
 			return lo.LowerCaseLettersCharset[Selector.Intn(len(lo.LowerCaseLettersCharset))]
 		})

@@ -3,11 +3,12 @@ package template_parser
 import (
 	"errors"
 	"fmt"
-	"log"
-	"os"
+	"io"
+	"math"
 	"strconv"
 	"time"
 
+	"github.com/samber/lo"
 	"github.com/samber/mo"
 	"gopkg.in/yaml.v3"
 )
@@ -52,9 +53,26 @@ type Config struct {
 }
 
 type Column struct {
-	Name    string      `yaml:"name"`
-	Type    ColumnType  `yaml:"type"`
-	Choices ChoiceField `yaml:"choices,omitempty"`
+	Name         string      `yaml:"name"`
+	Type         ColumnType  `yaml:"type"`
+	Choices      ChoiceField `yaml:"choices,omitempty"`
+	CreationProb float64     `yaml:"creation_prob,omitempty"`
+}
+
+func (c *Column) UnmarshalYAML(value *yaml.Node) error {
+	// set default value
+	c.CreationProb = 99.0
+
+	type tmp Column // prevent infinite recursion
+	if err := value.Decode((*tmp)(c)); err != nil {
+		return err
+	}
+
+	// clip value
+	c.CreationProb = math.Max(0.0, c.CreationProb)
+	c.CreationProb = math.Min(1.0, c.CreationProb)
+
+	return nil
 }
 
 type ChoiceField struct {
@@ -75,18 +93,18 @@ func (c *ChoiceField) UnmarshalYAML(value *yaml.Node) error {
 	return errors.New("invalid format for choices")
 }
 
-func ParseColumns(yaml_path string) mo.Result[[]Column] {
-	file, err := os.Open(yaml_path)
-	if err != nil {
-		log.Fatalf("failed to open file: %v", err)
-	}
-	defer file.Close()
-
-	decoder := yaml.NewDecoder(file)
+func ParseFromYAML(source io.Reader) mo.Result[[]Column] {
+	decoder := yaml.NewDecoder(source)
 
 	var config Config
 	if err := decoder.Decode(&config); err != nil {
-		mo.Errf[[]Column]("failed to decode: %v", err)
+		mo.Errf[[]Column]("failed to decode: %e", err)
+	}
+
+	names := lo.Map(config.Columns, func(c Column, _ int) string { return c.Name })
+	fmt.Printf("parse succeed: %v\n", names)
+	if dup := lo.FindDuplicates(names); len(dup) > 0 {
+		return mo.Errf[[]Column]("duplicated column names: %v", dup)
 	}
 
 	return mo.Ok(config.Columns)
@@ -103,7 +121,7 @@ func bulkUnmarshal[T1, T2 any](target []T1, convFn func(T1) (T2, error)) mo.Resu
 		}
 	}
 	if len(errs) > 0 {
-		return mo.Errf[[]T2]("failed to convert: %+v", errs)
+		return mo.Errf[[]T2]("failed to convert: %e", errs)
 	}
 	return mo.Ok(converted)
 }

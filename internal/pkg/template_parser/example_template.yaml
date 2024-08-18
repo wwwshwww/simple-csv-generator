@@ -27,9 +27,9 @@ columns:
   - name: name
     type: STRING
     choices:
-      - 'Alice'
-      - 'Bob'
-      - 'Charlie'
+      - Alice
+      - Bob
+      - Charlie
   - name: age
     type: INT
     choices:
@@ -39,8 +39,8 @@ columns:
   - name: day
     type: DATETIME
     choices:
-      - '2020-01-01 11:11:11'
-      - '2020-01-02'
-      - '2020-01-03'
+      - 2020-01-01 11:11:11
+      - 2020-01-02
+      - 2020-01-03
   - name: is_student
     type: BOOL
