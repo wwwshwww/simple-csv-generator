@@ -1,4 +1,4 @@
-package lib
+package template_parser
 
 import (
 	"errors"
@@ -58,18 +58,18 @@ type Column struct {
 }
 
 type ChoiceField struct {
-	values mo.Either[[]string, [][]string]
+	Values mo.Either[[]string, [][]string]
 }
 
 func (c *ChoiceField) UnmarshalYAML(value *yaml.Node) error {
 	var single []string
 	var multi [][]string
 	if err := value.Decode(&single); err == nil {
-		c.values = mo.Left[[]string, [][]string](single)
+		c.Values = mo.Left[[]string, [][]string](single)
 		return nil
 	}
 	if err := value.Decode(&multi); err == nil {
-		c.values = mo.Right[[]string, [][]string](multi)
+		c.Values = mo.Right[[]string, [][]string](multi)
 		return nil
 	}
 	return errors.New("invalid format for choices")
