@@ -194,74 +194,74 @@ func generateCsvContent(source io.Reader, rowCount int) mo.Result[[][]string] {
 		switch c.Type {
 		case template_parser.ColumnTypeInt:
 			nameToDummiesInt[c.Name] = dummy_producer.GetDummiesInt(dummyIntSpecies, dummyIntMin, dummyIntMax)
-			if v, isSingle := c.Choices.Values.Left(); isSingle && len(v) > 0 {
+			if v := c.Choices.Values.LeftOrEmpty(); len(v) > 0 {
 				r, err := template_parser.UnmarshalIntChoices(v).Get()
 				if err != nil {
 					return mo.Errf[[][]string]("failed to get choices: %e", err)
 				}
 				nameToChoicesInt[c.Name] = r
-			} else if vs, _ := c.Choices.Values.Right(); len(vs) > 0 {
-				log.Printf("column %v: invalid format for choices.\n", c.Name)
+			} else if vs := c.Choices.Values.RightOrEmpty(); len(vs) > 0 {
+				fmt.Printf("column [%v]: invalid format for choices.\n", c.Name)
 			}
 		case template_parser.ColumnTypeFloat:
 			nameToDummiesFloat[c.Name] = dummy_producer.GetDummiesFloat(dummyFloatSpecies, dummyFloatMin, dummyFloatMax)
-			if v, isSingle := c.Choices.Values.Left(); isSingle && len(v) > 0 {
+			if v := c.Choices.Values.LeftOrEmpty(); len(v) > 0 {
 				r, err := template_parser.UnmarshalFloatChoices(v).Get()
 				if err != nil {
 					return mo.Errf[[][]string]("failed to get choices: %e", err)
 				}
 				nameToChoicesFloat[c.Name] = r
-			} else if vs, _ := c.Choices.Values.Right(); len(vs) > 0 {
-				log.Printf("column %v: invalid format for choices.\n", c.Name)
+			} else if vs := c.Choices.Values.RightOrEmpty(); len(vs) > 0 {
+				fmt.Printf("column [%v]: invalid format for choices.\n", c.Name)
 			}
 		case template_parser.ColumnTypeBool:
 			nameToDummiesBool[c.Name] = dummy_producer.GetDummiesBool(dummyBoolSpecies)
-			if v, isSingle := c.Choices.Values.Left(); isSingle && len(v) > 0 {
+			if v := c.Choices.Values.LeftOrEmpty(); len(v) > 0 {
 				r, err := template_parser.UnmarshalBoolChoices(v).Get()
 				if err != nil {
 					return mo.Errf[[][]string]("failed to get choices: %e", err)
 				}
 				nameToChoicesBool[c.Name] = r
-			} else if vs, _ := c.Choices.Values.Right(); len(vs) > 0 {
-				log.Printf("column %v: invalid format for choices.\n", c.Name)
+			} else if vs := c.Choices.Values.RightOrEmpty(); len(vs) > 0 {
+				fmt.Printf("column [%v]: invalid format for choices.\n", c.Name)
 			}
 		case template_parser.ColumnTypeDatetime:
 			nameToDummiesDatetime[c.Name] = dummy_producer.GetDummiesDatetime(dummyDatetimeSpecies, dummyDatetimeStart, dummyDatetimeEnd)
-			if v, isSingle := c.Choices.Values.Left(); isSingle && len(v) > 0 {
+			if v := c.Choices.Values.LeftOrEmpty(); len(v) > 0 {
 				r, err := template_parser.UnmarshalDatetimeChoices(v).Get()
 				if err != nil {
 					return mo.Errf[[][]string]("failed to get choices: %e", err)
 				}
 				nameToChoicesDatetime[c.Name] = r
-			} else if vs, _ := c.Choices.Values.Right(); len(vs) > 0 {
-				log.Printf("column %v: invalid format for choices.\n", c.Name)
+			} else if vs := c.Choices.Values.RightOrEmpty(); len(vs) > 0 {
+				fmt.Printf("column [%v]: invalid format for choices.\n", c.Name)
 			}
 		case template_parser.ColumnTypeString:
 			nameToDummiesString[c.Name] = dummy_producer.GetDummiesString(dummyStringSpecies, dummyStringLength)
-			if v, isSingle := c.Choices.Values.Left(); isSingle && len(v) > 0 {
+			if v := c.Choices.Values.LeftOrEmpty(); len(v) > 0 {
 				nameToChoicesString[c.Name] = v
-			} else if vs, _ := c.Choices.Values.Right(); len(vs) > 0 {
-				log.Printf("column %v: invalid format for choices.\n", c.Name)
+			} else if vs := c.Choices.Values.RightOrEmpty(); len(vs) > 0 {
+				fmt.Printf("column [%v]: invalid format for choices.\n", c.Name)
 			}
 		case template_parser.ColumnTypeMultilineString:
 			nameToDummiesMultilineString[c.Name] = dummy_producer.GetDummiesMultilineString(dummyMultilineStringSpecies, dummyStringLength, dummyMultilineStringLines)
-			if v, isSingle := c.Choices.Values.Left(); isSingle && len(v) > 0 {
+			if v := c.Choices.Values.LeftOrEmpty(); len(v) > 0 {
 				nameToChoicesMultilineString[c.Name] = v
-			} else if vs, _ := c.Choices.Values.Right(); len(vs) > 0 {
-				log.Printf("column %v: invalid format for choices.\n", c.Name)
+			} else if vs := c.Choices.Values.RightOrEmpty(); len(vs) > 0 {
+				fmt.Printf("column [%v]: invalid format for choices.\n", c.Name)
 			}
 		case template_parser.ColumnTypeURL:
 			nameToDummiesURL[c.Name] = dummy_producer.GetDummiesURL(dummyURLSpecies, dummyURLLength)
-			if v, isSingle := c.Choices.Values.Left(); isSingle && len(v) > 0 {
+			if v := c.Choices.Values.LeftOrEmpty(); len(v) > 0 {
 				nameToChoicesURL[c.Name] = v
-			} else if vs, _ := c.Choices.Values.Right(); len(vs) > 0 {
-				log.Printf("column %v: invalid format for choices.\n", c.Name)
+			} else if vs := c.Choices.Values.RightOrEmpty(); len(vs) > 0 {
+				fmt.Printf("column [%v]: invalid format for choices.\n", c.Name)
 			}
 		case template_parser.ColumnTypeArrayInt:
 			nameToDummiesArrayInt[c.Name] = lo.Times(dummyArrayIntSpecies, func(_ int) []int {
 				return dummy_producer.GetDummiesInt(dummyArrayIntElements, dummyIntMin, dummyIntMax)
 			})
-			if vs, isMulti := c.Choices.Values.Right(); isMulti && len(vs) > 0 {
+			if vs := c.Choices.Values.RightOrEmpty(); len(vs) > 0 {
 				rs := lo.Map(vs, func(v []string, _ int) mo.Result[[]int] {
 					return template_parser.UnmarshalIntChoices(v)
 				})
@@ -278,14 +278,14 @@ func generateCsvContent(source io.Reader, rowCount int) mo.Result[[][]string] {
 					return mo.Errf[[][]string]("failed to get choices: %e", errs)
 				}
 				nameToChoicesArrayInt[c.Name] = choices
-			} else if v, _ := c.Choices.Values.Left(); len(v) > 0 {
-				log.Printf("column %v: invalid format for choices.\n", c.Name)
+			} else if v := c.Choices.Values.LeftOrEmpty(); len(v) > 0 {
+				fmt.Printf("column [%v]: invalid format for choices.\n", c.Name)
 			}
 		case template_parser.ColumnTypeArrayFloat:
 			nameToDummiesArrayFloat[c.Name] = lo.Times(dummyArrayFloatSpecies, func(_ int) []float64 {
 				return dummy_producer.GetDummiesFloat(dummyArrayFloatElements, dummyFloatMin, dummyFloatMax)
 			})
-			if vs, isMulti := c.Choices.Values.Right(); isMulti && len(vs) > 0 {
+			if vs := c.Choices.Values.RightOrEmpty(); len(vs) > 0 {
 				rs := lo.Map(vs, func(v []string, _ int) mo.Result[[]float64] {
 					return template_parser.UnmarshalFloatChoices(v)
 				})
@@ -302,14 +302,14 @@ func generateCsvContent(source io.Reader, rowCount int) mo.Result[[][]string] {
 					return mo.Errf[[][]string]("failed to get choices: %e", errs)
 				}
 				nameToChoicesArrayFloat[c.Name] = choices
-			} else if v, _ := c.Choices.Values.Left(); len(v) > 0 {
-				log.Printf("column %v: invalid format for choices.\n", c.Name)
+			} else if v := c.Choices.Values.LeftOrEmpty(); len(v) > 0 {
+				fmt.Printf("column [%v]: invalid format for choices.\n", c.Name)
 			}
 		case template_parser.ColumnTypeArrayBool:
 			nameToDummiesArrayBool[c.Name] = lo.Times(dummyArrayBoolSpecies, func(_ int) []bool {
 				return dummy_producer.GetDummiesBool(dummyArrayBoolElements)
 			})
-			if vs, isMulti := c.Choices.Values.Right(); isMulti && len(vs) > 0 {
+			if vs := c.Choices.Values.RightOrEmpty(); len(vs) > 0 {
 				rs := lo.Map(vs, func(v []string, _ int) mo.Result[[]bool] {
 					return template_parser.UnmarshalBoolChoices(v)
 				})
@@ -326,14 +326,14 @@ func generateCsvContent(source io.Reader, rowCount int) mo.Result[[][]string] {
 					return mo.Errf[[][]string]("failed to get choices: %e", errs)
 				}
 				nameToChoicesArrayBool[c.Name] = choices
-			} else if v, _ := c.Choices.Values.Left(); len(v) > 0 {
-				log.Printf("column %v: invalid format for choices.\n", c.Name)
+			} else if v := c.Choices.Values.LeftOrEmpty(); len(v) > 0 {
+				fmt.Printf("column [%v]: invalid format for choices.\n", c.Name)
 			}
 		case template_parser.ColumnTypeArrayDatetime:
 			nameToDummiesArrayDatetime[c.Name] = lo.Times(dummyArrayDatetimeSpecies, func(_ int) []time.Time {
 				return dummy_producer.GetDummiesDatetime(dummyArrayDatetimeElements, dummyDatetimeStart, dummyDatetimeEnd)
 			})
-			if vs, isMulti := c.Choices.Values.Right(); isMulti && len(vs) > 0 {
+			if vs := c.Choices.Values.RightOrEmpty(); len(vs) > 0 {
 				rs := lo.Map(vs, func(v []string, _ int) mo.Result[[]time.Time] {
 					return template_parser.UnmarshalDatetimeChoices(v)
 				})
@@ -350,35 +350,35 @@ func generateCsvContent(source io.Reader, rowCount int) mo.Result[[][]string] {
 					return mo.Errf[[][]string]("failed to get choices: %e", errs)
 				}
 				nameToChoicesArrayDatetime[c.Name] = choices
-			} else if v, _ := c.Choices.Values.Left(); len(v) > 0 {
-				log.Printf("column %v: invalid format for choices.\n", c.Name)
+			} else if v := c.Choices.Values.LeftOrEmpty(); len(v) > 0 {
+				fmt.Printf("column [%v]: invalid format for choices.\n", c.Name)
 			}
 		case template_parser.ColumnTypeArrayString:
 			nameToDummiesArrayString[c.Name] = lo.Times(dummyArrayStringSpecies, func(_ int) []string {
 				return dummy_producer.GetDummiesString(dummyArrayStringElements, dummyStringLength)
 			})
-			if vs, isMulti := c.Choices.Values.Right(); isMulti && len(vs) > 0 {
+			if vs := c.Choices.Values.RightOrEmpty(); len(vs) > 0 {
 				nameToChoicesArrayString[c.Name] = vs
-			} else if v, _ := c.Choices.Values.Left(); len(v) > 0 {
-				log.Printf("column %v: invalid format for choices.\n", c.Name)
+			} else if v := c.Choices.Values.LeftOrEmpty(); len(v) > 0 {
+				fmt.Printf("column [%v]: invalid format for choices.\n", c.Name)
 			}
 		case template_parser.ColumnTypeArrayMultilineString:
 			nameToDummiesArrayMultilineString[c.Name] = lo.Times(dummyArrayMultilineStringSpecies, func(_ int) []string {
 				return dummy_producer.GetDummiesMultilineString(dummyArrayMultilineStringElements, dummyStringLength, dummyMultilineStringLines)
 			})
-			if vs, isMulti := c.Choices.Values.Right(); isMulti && len(vs) > 0 {
+			if vs := c.Choices.Values.RightOrEmpty(); len(vs) > 0 {
 				nameToChoicesArrayMultilineString[c.Name] = vs
-			} else if v, _ := c.Choices.Values.Left(); len(v) > 0 {
-				log.Printf("column %v: invalid format for choices.\n", c.Name)
+			} else if v := c.Choices.Values.LeftOrEmpty(); len(v) > 0 {
+				fmt.Printf("column [%v]: invalid format for choices.\n", c.Name)
 			}
 		case template_parser.ColumnTypeArrayURL:
 			nameToDummiesArrayURL[c.Name] = lo.Times(dummyArrayURLSpecies, func(_ int) []string {
 				return dummy_producer.GetDummiesURL(dummyArrayURLElements, dummyURLLength)
 			})
-			if vs, isMulti := c.Choices.Values.Right(); isMulti && len(vs) > 0 {
+			if vs := c.Choices.Values.RightOrEmpty(); len(vs) > 0 {
 				nameToChoicesArrayURL[c.Name] = vs
-			} else if v, _ := c.Choices.Values.Left(); len(v) > 0 {
-				log.Printf("column %v: invalid format for choices.\n", c.Name)
+			} else if v := c.Choices.Values.LeftOrEmpty(); len(v) > 0 {
+				fmt.Printf("column [%v]: invalid format for choices.\n", c.Name)
 			}
 		}
 	}
@@ -491,7 +491,7 @@ func generateCsvContent(source io.Reader, rowCount int) mo.Result[[][]string] {
 				} else {
 					v = dummy_producer.Select(nameToDummiesArrayMultilineString[c.Name])
 				}
-				rows[rowIdx][colIdx] = strings.Join(lo.Map(v, func(e string, _ int) string { return `"` + e + `"` }), ",") + `"`
+				rows[rowIdx][colIdx] = strings.Join(lo.Map(v, func(e string, _ int) string { return `"` + e + `"` }), ",")
 			case template_parser.ColumnTypeArrayURL:
 				var v []string
 				if choices, ok := nameToChoicesArrayURL[c.Name]; ok {
@@ -499,7 +499,7 @@ func generateCsvContent(source io.Reader, rowCount int) mo.Result[[][]string] {
 				} else {
 					v = dummy_producer.Select(nameToDummiesArrayURL[c.Name])
 				}
-				rows[rowIdx][colIdx] = strings.Join(lo.Map(v, func(e string, _ int) string { return `"` + e + `"` }), ",") + `"`
+				rows[rowIdx][colIdx] = strings.Join(lo.Map(v, func(e string, _ int) string { return `"` + e + `"` }), ",")
 			}
 		}
 	}
