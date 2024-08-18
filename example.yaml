@@ -6,7 +6,6 @@
 # - STRING
 # - MULTILINE_STRING
 # - URL
-# - ENUM
 # - ARRAY_INT
 # - ARRAY_FLOAT
 # - ARRAY_BOOL
@@ -14,7 +13,6 @@
 # - ARRAY_STRING
 # - ARRAY_MULTILINE_STRING
 # - ARRAY_URL
-# - ARRAY_ENUM
 
 columns:
   - name: id
@@ -41,9 +39,10 @@ columns:
     choices:
       - 2020-01-01T11:11:11Z
       - 2020-01-02T00:00:00Z
-      - 2020-01-03T00:00:00Z
   - name: is_student
     type: BOOL
   - name: posts
     type: ARRAY_STRING
     creation_probability: 0.3
+  - name: price
+    type: FLOAT

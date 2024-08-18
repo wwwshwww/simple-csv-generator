@@ -451,7 +451,7 @@ func generateCsvContent(source io.Reader, rowCount int) mo.Result[[][]string] {
 				} else {
 					v = dummy_producer.Select(nameToDummiesArrayInt[c.Name])
 				}
-				rows[rowIdx][colIdx] = `"` + strings.Join(lo.Map(v, func(e int, _ int) string { return strconv.Itoa(e) }), ",") + `"`
+				rows[rowIdx][colIdx] = strings.Join(lo.Map(v, func(e int, _ int) string { return `"` + strconv.Itoa(e) + `"` }), ",")
 			case template_parser.ColumnTypeArrayFloat:
 				var v []float64
 				if choices, ok := nameToChoicesArrayFloat[c.Name]; ok {
@@ -459,7 +459,7 @@ func generateCsvContent(source io.Reader, rowCount int) mo.Result[[][]string] {
 				} else {
 					v = dummy_producer.Select(nameToDummiesArrayFloat[c.Name])
 				}
-				rows[rowIdx][colIdx] = `"` + strings.Join(lo.Map(v, func(e float64, _ int) string { return strconv.FormatFloat(e, 'f', -1, 64) }), ",") + `"`
+				rows[rowIdx][colIdx] = strings.Join(lo.Map(v, func(e float64, _ int) string { return `"` + strconv.FormatFloat(e, 'f', -1, 64) + `"` }), ",")
 			case template_parser.ColumnTypeArrayBool:
 				var v []bool
 				if choices, ok := nameToChoicesArrayBool[c.Name]; ok {
@@ -467,7 +467,7 @@ func generateCsvContent(source io.Reader, rowCount int) mo.Result[[][]string] {
 				} else {
 					v = dummy_producer.Select(nameToDummiesArrayBool[c.Name])
 				}
-				rows[rowIdx][colIdx] = `"` + strings.Join(lo.Map(v, func(e bool, _ int) string { return strconv.FormatBool(e) }), ",") + `"`
+				rows[rowIdx][colIdx] = strings.Join(lo.Map(v, func(e bool, _ int) string { return `"` + strconv.FormatBool(e) + `"` }), ",")
 			case template_parser.ColumnTypeArrayDatetime:
 				var v []time.Time
 				if choices, ok := nameToChoicesArrayDatetime[c.Name]; ok {
@@ -475,7 +475,7 @@ func generateCsvContent(source io.Reader, rowCount int) mo.Result[[][]string] {
 				} else {
 					v = dummy_producer.Select(nameToDummiesArrayDatetime[c.Name])
 				}
-				rows[rowIdx][colIdx] = `"` + strings.Join(lo.Map(v, func(e time.Time, _ int) string { return e.Format(time.RFC3339) }), ",") + `"`
+				rows[rowIdx][colIdx] = strings.Join(lo.Map(v, func(e time.Time, _ int) string { return `"` + e.Format(time.RFC3339) + `"` }), ",")
 			case template_parser.ColumnTypeArrayString:
 				var v []string
 				if choices, ok := nameToChoicesArrayString[c.Name]; ok {
@@ -483,7 +483,7 @@ func generateCsvContent(source io.Reader, rowCount int) mo.Result[[][]string] {
 				} else {
 					v = dummy_producer.Select(nameToDummiesArrayString[c.Name])
 				}
-				rows[rowIdx][colIdx] = `"` + strings.Join(v, ",") + `"`
+				rows[rowIdx][colIdx] = strings.Join(lo.Map(v, func(e string, _ int) string { return `"` + e + `"` }), ",")
 			case template_parser.ColumnTypeArrayMultilineString:
 				var v []string
 				if choices, ok := nameToChoicesArrayMultilineString[c.Name]; ok {
@@ -491,7 +491,7 @@ func generateCsvContent(source io.Reader, rowCount int) mo.Result[[][]string] {
 				} else {
 					v = dummy_producer.Select(nameToDummiesArrayMultilineString[c.Name])
 				}
-				rows[rowIdx][colIdx] = `"` + strings.Join(v, ",") + `"`
+				rows[rowIdx][colIdx] = strings.Join(lo.Map(v, func(e string, _ int) string { return `"` + e + `"` }), ",") + `"`
 			case template_parser.ColumnTypeArrayURL:
 				var v []string
 				if choices, ok := nameToChoicesArrayURL[c.Name]; ok {
@@ -499,7 +499,7 @@ func generateCsvContent(source io.Reader, rowCount int) mo.Result[[][]string] {
 				} else {
 					v = dummy_producer.Select(nameToDummiesArrayURL[c.Name])
 				}
-				rows[rowIdx][colIdx] = `"` + strings.Join(v, ",") + `"`
+				rows[rowIdx][colIdx] = strings.Join(lo.Map(v, func(e string, _ int) string { return `"` + e + `"` }), ",") + `"`
 			}
 		}
 	}
