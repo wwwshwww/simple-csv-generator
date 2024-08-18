@@ -251,7 +251,7 @@ func generateCsvContent(source io.Reader, rowCount int) mo.Result[[][]string] {
 				log.Printf("column %v: invalid format for choices.\n", c.Name)
 			}
 		case template_parser.ColumnTypeURL:
-			nameToDummiesURL[c.Name] = dummy_producer.GetDummiesString(dummyURLSpecies, dummyURLLength)
+			nameToDummiesURL[c.Name] = dummy_producer.GetDummiesURL(dummyURLSpecies, dummyURLLength)
 			if v, isSingle := c.Choices.Values.Left(); isSingle && len(v) > 0 {
 				nameToChoicesURL[c.Name] = v
 			} else if vs, _ := c.Choices.Values.Right(); len(vs) > 0 {
@@ -373,7 +373,7 @@ func generateCsvContent(source io.Reader, rowCount int) mo.Result[[][]string] {
 			}
 		case template_parser.ColumnTypeArrayURL:
 			nameToDummiesArrayURL[c.Name] = lo.Times(dummyArrayURLSpecies, func(_ int) []string {
-				return dummy_producer.GetDummiesString(dummyArrayURLElements, dummyURLLength)
+				return dummy_producer.GetDummiesURL(dummyArrayURLElements, dummyURLLength)
 			})
 			if vs, isMulti := c.Choices.Values.Right(); isMulti && len(vs) > 0 {
 				nameToChoicesArrayURL[c.Name] = vs

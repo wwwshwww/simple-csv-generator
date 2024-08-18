@@ -46,3 +46,6 @@ columns:
     creation_probability: 0.3
   - name: price
     type: FLOAT
+  - name: shop_url
+    type: URL
+    creation_probability: 0.2
