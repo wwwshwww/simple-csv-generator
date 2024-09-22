@@ -1,0 +1,11 @@
+id,nickname,name,age,day,arr_str,is_student,posts,price,shop_url
+1,biikkf,Bob,"1,2,3",2020-01-01T11:11:11Z,"d,"",e"""","",f",true,,530.17,
+1,phxrwa,Bob,"4,5,6",2020-01-01T11:11:11Z,"""""""a"",b",true,"slrukj,ipmmcg,crwoss",391.31,
+1,mjdekw,Charlie,"7,8,9",2020-01-02T00:00:00Z,"d,"",e"""","",f",false,,530.17,
+1,cljqru,Bob,"1,2,3",,"""""""a"",b",true,,224.9,
+1,mctyqx,Bob,"4,5,6",,"""""""a"",b",true,,258.93,
+1,oyuvrt,Alice,"4,5,6",,"""""""a"",b",true,,528.86,
+1,tclktr,Alice,"4,5,6",2020-01-02T00:00:00Z,"d,"",e"""","",f",true,"ydjkei,jgiaim,dfofym",134.91,
+1,oyuvrt,Charlie,"4,5,6",2020-01-02T00:00:00Z,"d,"",e"""","",f",false,"slrukj,ipmmcg,crwoss",230.42,
+1,cljqru,Alice,"1,2,3",,"""""""a"",b",false,"slrukj,ipmmcg,crwoss",379.73,
+1,phxrwa,Bob,"4,5,6",2020-01-02T00:00:00Z,"d,"",e"""","",f",true,,230.42,

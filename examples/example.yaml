@@ -39,6 +39,11 @@ columns:
     choices:
       - 2020-01-01T11:11:11Z
       - 2020-01-02T00:00:00Z
+  - name: arr_str
+    type: ARRAY_STRING
+    choices:
+      - ["\"a", "b"]
+      - ["d", ",e\",", "f"]
   - name: is_student
     type: BOOL
   - name: posts
